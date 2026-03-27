@@ -1,0 +1,119 @@
+
+
+
+<0> 기존 ec2 에서 모니터링
+
+터미널 1
+
+watch -d kubectl get no,svc,pods,deployment,rs
+
+
+
+
+<1>콘솔로 EC2 1대 생성과  헬름 설치와 사용법
+
+
+1
+콘솔로 ec2 1대 생성한다.
+아마존 리눅스
+helm-web01
+t3.micro
+
+퍼블릭 IP 자동 할당
+ 정보
+활성화로 편집
+인스턴스 시작
+모든 인스턴스 보기
+
+
+
+2
+# 터미널 2
+
+$ sudo su -
+
+# sudo su - 명령어는 단순히 권한만 빌리는 게 아니라, **root 사용자의 환경 설정(PATH, 홈 디렉토리 등)까지 그대로 가져오는 '로그인 쉘'**을 실행하겠다는 의미입니다.
+
+
+# helm 미설치시 설치 상태
+
+helm version
+
+-bash: helm: command not found
+
+
+
+# 설치
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+helm version
+
+
+
+
+3
+
+# 
+ Bitnami 차트 저장소를 추가하고 업데이트
+Bitnami는 보안과 최적화가 잘 된 애플리케이션 패키지(MariaDB, Redis, NGINX 등)를 제공하기로 유명함.
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm repo update
+
+
+
+4
+# 현재 리스트 확인
+helm repo list
+
+
+[root@ip-10-0-0-252 ~]# helm repo list
+NAME    URL
+bitnami https://charts.bitnami.com/bitnami
+[root@ip-10-0-0-252 ~]#
+
+
+
+5
+
+# 'my-release'라는 이름으로 nginx 설치
+
+helm install my-release bitnami/nginx
+
+
+[root@ip-10-0-0-252 ~]# helm install my-release bitnami/nginx
+Error: INSTALLATION FAILED: Kubernetes cluster unreachable: Get "http://localhost:8080/version": dial tcp 127.0.0.1:8080: connect: connection refused
+[root@ip-10-0-0-252 ~]#
+
+
+# 안됨.  왜 안될까요??
+
+# 쿠버네티스에 대한 권한이  없어서  안됩니다.
+
+# 헬름은 쿠버네티스 기반이기 때문에 
+
+
+
+# 쿠버네티스 제어가 가능한 kops ec2로 로그인.
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm repo update
+
+helm install my-release bitnami/nginx
+
+
+
+
+kubectl get deployments
+
+deployment.apps/my-release-nginx   1/1     1            1           36s
+
+
+
+
