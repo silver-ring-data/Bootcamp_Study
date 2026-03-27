@@ -1,0 +1,368 @@
+
+<1> 모니터링 도구 - K8 
+
+1
+# EC2 로그인
+
+
+# 터미널 1
+
+watch -d kubectl get no,svc,deploy,rs,pods
+
+
+
+# 터미널 2
+watch -d kubectl top node
+
+
+
+
+2
+# 불필요한 pod 삭제
+deployment.apps/web-demo
+
+
+# 불필요한 서비스 삭제 - 로드밸런서 삭제라 1분 걸려요~
+
+ k delete service/web-demo-svc
+ k delete service/my-release-nginx
+ k delete deployment.apps/web-demo
+
+k delete service/php-apache
+
+
+
+
+
+
+3
+# pod 생성
+
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+
+# 로드발란스
+kubectl expose deployment php-apache --port=80 --target-port=80
+
+
+
+4
+# 터미널 3
+# 부하 주기
+
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://php-apache; done"
+
+
+
+5
+# 중지후 재 실행법
+
+# 터미널4
+
+# 1. 기존 Pod 삭제 (강제)
+
+kubectl delete pod load-generator --force
+
+
+6
+# 2. 부하 테스트 명령어 다시 실행
+
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://php-apache; done"
+
+
+7
+# 참고만 하세요
+
+터미널 3
+# 노드 수를 4대로 늘리기 (Desired Capacity를 4으로 변경)
+
+eksctl scale nodegroup --cluster=free-vpc-cluster --name=standard-nodes --nodes=4 --nodes-min=1 --nodes-max=5 --region ap-northeast-2
+
+
+
+8
+# 터미널 4
+# 1. 기존 HPA 삭제 - 없다면 새로 생성
+kubectl delete hpa php-apache
+
+# 2. 10% 기준으로 다시 생성
+kubectl autoscale deployment php-apache --cpu-percent=2 --min=1 --max=10
+
+# 3. 확인
+kubectl get hpa php-apache
+
+
+9
+K9s 설치
+
+# 1. 최신 바이너리 다운로드 및 압축 해제
+curl -L -s https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar xz
+
+# 2. 실행 파일을 시스템 경로로 이동
+sudo mv k9s /usr/local/bin/
+
+# 3. 실행 확인
+k9s
+
+
+
+10
+
+부하 테스트 시 k9s 활용법
+k9s를 실행하면 리소스 목록이 뜹니다. 다음 단축키를 활용해 보세요.
+
+:pod 입력 후 Enter: 현재 실행 중인 모든 Pod 목록을 봅니다. 
+여기서 php-apache Pod가 부하에 따라 실시간으로 늘어나는 것을 볼 수 있습니다.
+
+:hpa 입력 후 Enter: 현재 설정된 HPA의 CPU 사용률(TARGETS)과 복제본 수(REPLICAS)를 한눈에 모니터링합니다.
+
+:node 입력 후 Enter: 노드별 CPU/Memory 사용량을 메트릭 서버 데이터 기반으로 보여줍니다.
+
+
+11
+컨트롤 c 로 나온다.
+
+
+
+
+<2> 프로메테우스
+
+먼저 터미널에 helm이 설치되어 있는지 확인하세요.
+
+helm version
+
+1
+# helm으로 프로메테우스 설치
+
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+
+2
+# 네임 스페이스 생성
+
+kubectl create namespace monitoring
+
+
+
+3
+
+설치 확인 및 접속 방법
+1. 서비스 상태 확인
+모든 Pod과 서비스가 정상적으로 떴는지 확인합니다. (약 1~2분 소요)
+
+
+helm install prometheus-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --set grafana.adminPassword=admin
+
+
+
+4
+
+# 그라파나 서비스 이름을 찾아 3000번 포트로 연결
+kubectl port-forward -n monitoring service/prometheus-stack-grafana 3000:80 --address 0.0.0.0
+
+
+
+5
+# 새로운 터미널에서
+# monitoring 네임스페이스의 모든 자원 확인
+
+kubectl get all -n monitoring
+
+k ns monitoring
+
+
+
+6
+# 노드 부족하면 증설 - 참고용
+
+# 노드 그룹 이름을 확인 (standard-nodes 또는 public-nodes)
+eksctl get nodegroup --cluster free-vpc-cluster
+
+# 원하는 개수(예: 3대)로 증설
+eksctl scale nodegroup --cluster=free-vpc-cluster --name=<노드그룹_이름> --nodes=3 --nodes-min=1 --nodes-max=4
+
+
+
+7
+# nodegroup 확인하는 명령어
+
+eksctl get nodegroup --cluster free-vpc-cluster --region ap-northeast-2
+
+
+# 노드 수를 3대로 늘리기 (Desired Capacity를 3으로 변경)
+eksctl scale nodegroup --cluster=free-vpc-cluster --name=standard-nodes --nodes=3 --nodes-min=1 --nodes-max=4 --region ap-northeast-2
+
+
+
+8
+
+helm list -n monitoring
+
+(ssss@free-vpc-cluster:monitoring) [root@kops-ec2 ~]# helm list -n monitoring
+NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                           APP VERSION
+prometheus-stack        monitoring      1               2026-02-19 00:05:16.942098615 +0900 KST deployed        kube-prometheus-stack-82.1.0    v0.89.0
+
+
+
+8
+
+# 트라블 슈팅
+
+
+# 1. 기존 차트 삭제
+helm uninstall prometheus-stack -n monitoring
+
+# 2. (선택) 남아있는 설정값(CRD) 삭제 - 보통은 생략해도 되지만 에러 지속 시 필요
+# kubectl delete crd $(kubectl get crd | grep coreos.com | awk '{print $1}')
+
+# 3. 다시 설치 실행
+helm install prometheus-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --set grafana.adminPassword=admin
+
+
+
+
+10
+
+
+# Prometheus 인스턴스 확인
+kubectl get prometheus -n monitoring
+
+prometheus-stack-kube-prom-prometheus   v3.10.0   1         1       True         True        3m54s
+
+
+
+# Alertmanager 인스턴스 확인
+kubectl get alertmanager -n monitoring
+
+prometheus-stack-kube-prom-alertmanager   v0.31.1   1          1       True         True        4m8s
+
+
+
+
+# 관련 Pod들이 모두 떴는지 최종 확인
+
+kubectl get pods -n monitoring
+
+
+
+11
+
+---------------------
+트러블 슈팅
+
+curl ifconfig.me
+43.200.254.197
+43.202.4.57
+
+kops-ec2
+
+
+# 인스턴스 보안 그룹 확인
+# 콘솔에서 인스턴스 id 확인
+
+# 아래에 인스턴스 id 변경 - i-xxxxxxxxxxxxxxx
+
+aws ec2 describe-instances \
+    --instance-ids i-02c1e850b336ba2b8 \
+    --query "Reservations[*].Instances[*].SecurityGroups[*].{Name:GroupName, ID:GroupId}" \
+    --output table
+
+
+sg-0752feab16801af67
+
+
+
+
+12
+
+로드 밸런서로 변경
+
+kubectl patch svc prometheus-stack-grafana -n monitoring -p '{"spec": {"type": "LoadBalancer"}}'
+
+
+보안그룹 업데이트
+
+aws ec2 authorize-security-group-ingress \
+    --group-id sg-0752feab16801af67 \
+    --protocol tcp \
+    --port 80 \
+    --cidr 0.0.0.0/0
+
+
+
+
+13
+로드밸런서로 웹 접속
+
+admin / admin
+
+# 암호 변경
+
+
+# 암호 확인
+kubectl get secret -n monitoring prometheus-stack-grafana \
+    -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+
+----------------------------------
+
+
+14
+Dashboards 
+NEw 
+Import
+3119   Load
+
+DS_PROMETHEUS
+Prometheus로 지정
+import
+
+완료
+
+
+15
+
+ID 1860 (Node Exporter Full): * 용도: 개별 노드(Server)의 CPU, 메모리, 디스크, 네트워크 상세 지표 확인.
+
+특징: 하드웨어 레벨의 병목 현상을 잡을 때 필수적입니다.
+
+
+
+ID 15757 또는 15758 (Kubernetes / Views / Global):
+
+용도: 여러 클러스터를 운영하거나, 전체적인 리소스 할당량(Quota) 대비 사용량을 시각화할 때 좋습니다.
+
+특징: 깔끔한 UI와 직관적인 가동률(Utilization) 그래프를 제공합니다.
+
+---------
+마이크로서비스 및 워크로드 중심
+애플리케이션이 잘 돌아가고 있는지, 특정 Pod에 문제가 없는지 확인할 때 적합합니다.
+
+ID 15661 (Kubernetes / Kube-State-Metrics):
+
+용도: Deployment, StatefulSet, Pod의 상태(Running, Pending, Failed)를 한눈에 파악.
+
+특징: 3119보다 최신 Kubernetes 버전의 지표를 더 잘 반영합니다.
+
+ID 6706 (NGINX Ingress Controller):
+
+용도: Ingress를 통해 들어오는 트래픽(L7)
+
+------------
+
+클라우드 서비스 및 데이터베이스
+매니지드 서비스(Managed Services)를 사용 중이라면 다음 대시보드가 효율적입니다.
+
+ID 6073 (Prometheus CloudWatch Exporter): * 용도: AWS의 다양한 서비스 지표를 그라파나에서 통합 관리.
+
+ID 7362 (MySQL / MariaDB Overview):
+
+용도: 데이터베이스의 커넥션 수, 쿼리 처리 속도, 버퍼 풀 상태 등을 모니터링.
+
+특징: DB 성능 튜닝 시 시각적인 지표로 활용하기 좋습니다.
