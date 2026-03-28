@@ -1,9 +1,27 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Whale/4.36.368.10 Safari/537.36" version="29.6.6">
   <diagram name="페이지-1" id="gmBB1c9iyBB875TVJWXs">
-    <mxGraphModel dx="1554" dy="831" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1943" dy="1039" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="W444ZC6qDPAXoxGUCCXV-15" parent="1" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;html=1;" value="Pool" vertex="1">
+          <mxGeometry height="780" width="1811" x="109" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="W444ZC6qDPAXoxGUCCXV-16" parent="W444ZC6qDPAXoxGUCCXV-15" style="swimlane;startSize=20;horizontal=0;html=1;" value="Lane 1" vertex="1">
+          <mxGeometry height="310" width="1811" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="W444ZC6qDPAXoxGUCCXV-17" parent="W444ZC6qDPAXoxGUCCXV-15" style="swimlane;startSize=20;horizontal=0;html=1;" value="Lane 2" vertex="1">
+          <mxGeometry height="330" width="1811" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="W444ZC6qDPAXoxGUCCXV-18" parent="W444ZC6qDPAXoxGUCCXV-15" style="swimlane;startSize=20;horizontal=0;html=1;" value="Lane 3" vertex="1">
+          <mxGeometry height="120" width="1811" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="W444ZC6qDPAXoxGUCCXV-10" parent="W444ZC6qDPAXoxGUCCXV-18" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Essential_Part_4-2571/356-Document_Code-766.svg" value="" vertex="1">
+          <mxGeometry height="72" width="72" x="421" y="24" as="geometry" />
+        </mxCell>
+        <mxCell id="W444ZC6qDPAXoxGUCCXV-19" parent="W444ZC6qDPAXoxGUCCXV-18" style="sketch=0;verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;fillColor=#000000;align=center;outlineConnect=0;pointerEvents=1;shape=mxgraph.citrix2.desktop;" value="" vertex="1">
+          <mxGeometry height="38.66" width="50" x="71" y="45" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
