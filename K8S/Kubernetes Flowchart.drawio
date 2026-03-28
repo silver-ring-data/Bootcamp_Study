@@ -11,19 +11,40 @@
           <mxGeometry height="706" width="1261" x="1070" y="-520" as="geometry" />
         </mxCell>
         <mxCell id="O_oKi4H6jJT_vkh9qZ-V-23" parent="1" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;" value="Pool" vertex="1">
-          <mxGeometry height="480" width="1430" x="260" y="350" as="geometry" />
+          <mxGeometry height="690" width="1680" x="260" y="360" as="geometry" />
         </mxCell>
-        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-24" parent="O_oKi4H6jJT_vkh9qZ-V-23" style="swimlane;startSize=20;html=1;" value="Lane 1" vertex="1">
-          <mxGeometry height="460" width="120" y="20" as="geometry" />
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-24" parent="O_oKi4H6jJT_vkh9qZ-V-23" style="swimlane;startSize=20;html=1;" value="local" vertex="1">
+          <mxGeometry height="670" width="250" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-25" parent="O_oKi4H6jJT_vkh9qZ-V-23" style="swimlane;startSize=20;html=1;" value="Lane 2" vertex="1">
-          <mxGeometry height="460" width="120" x="120" y="20" as="geometry" />
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-51" connectable="0" parent="O_oKi4H6jJT_vkh9qZ-V-24" style="group" value="" vertex="1">
+          <mxGeometry height="120" width="90" x="60" y="220" as="geometry" />
         </mxCell>
-        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-26" parent="O_oKi4H6jJT_vkh9qZ-V-23" style="swimlane;startSize=20;html=1;" value="Lane 3" vertex="1">
-          <mxGeometry height="460" width="330" x="240" y="20" as="geometry" />
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-49" parent="O_oKi4H6jJT_vkh9qZ-V-51" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/48_Bubbles-2335/29.Mac-619.svg" value="Local PC" vertex="1">
+          <mxGeometry height="67.5" width="67.5" x="9" as="geometry" />
         </mxCell>
-        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-27" parent="O_oKi4H6jJT_vkh9qZ-V-23" style="swimlane;startSize=20;html=1;" value="Lane 3" vertex="1">
-          <mxGeometry height="460" width="860" x="570" y="20" as="geometry" />
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-53" parent="O_oKi4H6jJT_vkh9qZ-V-24" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.source_code;" value="YAML 파일&lt;div&gt;(0 kops-ec2-[날짜].yaml)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="78" width="57" x="76.5" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-25" parent="O_oKi4H6jJT_vkh9qZ-V-23" style="swimlane;startSize=20;html=1;" value="aws" vertex="1">
+          <mxGeometry height="670" width="1430" x="250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-35" parent="O_oKi4H6jJT_vkh9qZ-V-25" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;whiteSpace=wrap;labelBackgroundColor=default;" value="AWS Cloud" vertex="1">
+          <mxGeometry height="590" width="1350" x="50" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-36" parent="O_oKi4H6jJT_vkh9qZ-V-35" style="swimlane;html=1;startSize=20;" value="AWS Service" vertex="1">
+          <mxGeometry height="570" width="470" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-37" parent="O_oKi4H6jJT_vkh9qZ-V-35" style="swimlane;html=1;startSize=20;" value="K8S" vertex="1">
+          <mxGeometry height="570" width="880" x="470" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-45" parent="O_oKi4H6jJT_vkh9qZ-V-37" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;whiteSpace=wrap;" value="Cluster" vertex="1">
+          <mxGeometry height="480" width="820" x="30" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-46" parent="O_oKi4H6jJT_vkh9qZ-V-45" style="swimlane;html=1;startSize=20;" value="Control Plane" vertex="1">
+          <mxGeometry height="460" width="250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="O_oKi4H6jJT_vkh9qZ-V-47" parent="O_oKi4H6jJT_vkh9qZ-V-45" style="swimlane;html=1;startSize=20;" value="Worker Nodes" vertex="1">
+          <mxGeometry height="460" width="570" x="250" y="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
