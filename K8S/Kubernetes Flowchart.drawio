@@ -1,9 +1,9 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Whale/4.36.368.10 Safari/537.36" version="29.6.6">
   <diagram name="페이지-1" id="gmBB1c9iyBB875TVJWXs">
-    <mxGraphModel dx="1295" dy="2693" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2000" math="0" shadow="0">
+    <mxGraphModel dx="2590" dy="3385" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
-        <mxCell id="1" parent="0" />
+        <mxCell id="1" parent="0" style="locked=0;" />
         <mxCell id="hO_-6Sx9Yi0eW3hoKWRN-23" parent="1" style="fillColor=light-dark(#FFFFFF,#FFFFFF4D);strokeColor=#000000;dashed=0;verticalAlign=top;fontStyle=0;fontColor=#232F3D;whiteSpace=wrap;html=1;labelBorderColor=default;" value="Local" vertex="1">
           <mxGeometry height="510" width="1990" x="640" y="-270" as="geometry" />
         </mxCell>
@@ -407,6 +407,19 @@
               <mxPoint x="790" y="629" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="hO_-6Sx9Yi0eW3hoKWRN-48" parent="0" style="locked=1;" value="챕터" visible="0" />
+        <mxCell id="hO_-6Sx9Yi0eW3hoKWRN-51" parent="hO_-6Sx9Yi0eW3hoKWRN-48" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0000004D;arcSize=0;" value="" vertex="1">
+          <mxGeometry height="2820" width="2100" x="590" y="-300" as="geometry" />
+        </mxCell>
+        <mxCell id="hO_-6Sx9Yi0eW3hoKWRN-52" parent="hO_-6Sx9Yi0eW3hoKWRN-48" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0000004D;arcSize=0;fontColor=#FFFFFF;fontStyle=1;fontSize=24;strokeColor=none;" value="chapter 2" vertex="1">
+          <mxGeometry height="100" width="250" x="1450" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="hO_-6Sx9Yi0eW3hoKWRN-53" parent="hO_-6Sx9Yi0eW3hoKWRN-48" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0000004D;arcSize=0;fontColor=#FFFFFF;fontStyle=1;fontSize=24;strokeColor=none;" value="chapter 1" vertex="1">
+          <mxGeometry height="450" width="1220" x="740" y="-230" as="geometry" />
+        </mxCell>
+        <mxCell id="hO_-6Sx9Yi0eW3hoKWRN-54" parent="hO_-6Sx9Yi0eW3hoKWRN-48" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0000004D;arcSize=0;fontColor=#FFFFFF;fontStyle=1;fontSize=24;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="480" width="410" x="740" y="220" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
